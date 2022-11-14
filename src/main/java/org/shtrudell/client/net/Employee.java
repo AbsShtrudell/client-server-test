@@ -1,96 +1,30 @@
-package org.shtrudell.server.model;
+package org.shtrudell.client.net;
+
+import org.shtrudell.common.model.DepartmentDTO;
+import org.shtrudell.common.model.EmployeeDTO;
+import org.shtrudell.common.model.Gender;
 
 import java.util.Date;
-import jakarta.persistence.*;
-import org.shtrudell.common.model.DepartmentDTO;
-import org.shtrudell.common.model.Gender;
-import org.shtrudell.common.model.EmployeeDTO;
 
-@NamedQueries({
-        @NamedQuery(
-                name = "deleteEmployeeById",
-                query = "DELETE FROM Employee emp WHERE emp.id = :employeeId"
-        )
-        ,
-        @NamedQuery(
-                name = "findEmployeeByNameAndSurname",
-                query = "SELECT emp FROM Employee emp " +
-                        "WHERE emp.firstName LIKE :name " +
-                        "and emp.lastName LIKE :surname",
-                lockMode = LockModeType.OPTIMISTIC
-        )
-        ,
-        @NamedQuery(
-                name = "findAllEmployees",
-                query = "SELECT emp FROM Employee emp",
-                lockMode = LockModeType.OPTIMISTIC
-        )
-})
-
-@Entity
-@Table(name="employee")
 public class Employee implements EmployeeDTO {
-    @Id
-    @GeneratedValue
-    @Column(name="id")
+
     private Long id;
-    @Column(name="firstName")
     private String firstName;
-    @Column(name="lastName")
     private String lastName;
-    @Column(name="middleName")
     private String middleName;
-    @Column(name="gender")
-    @Enumerated(EnumType.ORDINAL)
     private Gender gender;
-    @Column(name="birthdate")
     private Date date;
-    @Column(name="address")
     private String address;
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "department")
-    private Department department;
-
-    @Version
-    @Column(name = "OPTLOCK")
-    private int versionNum;
-
-    public Employee() {
-
-    }
+    private DepartmentDTO department;
 
     public Employee(String firstName, String lastName, String middleName, Gender gender, Date date, String address) {
+        this.id = 0L;
         this.firstName = firstName;
         this.lastName = lastName;
         this.middleName = middleName;
         this.gender = gender;
         this.date = date;
         this.address = address;
-    }
-
-    @Override
-    public Long getId() {
-        return id;
-    }
-
-    @Override
-    public String getFirstName() {
-        return firstName;
-    }
-
-    @Override
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    @Override
-    public String getLastName() {
-        return lastName;
-    }
-
-    @Override
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
     }
 
     @Override
@@ -134,13 +68,42 @@ public class Employee implements EmployeeDTO {
     }
 
     @Override
+    public void setDepartment(DepartmentDTO department) {
+        this.department = department;
+    }
+
+    @Override
     public DepartmentDTO getDepartment() {
         return department;
     }
 
     @Override
-    public void setDepartment(DepartmentDTO department) {
-        this.department = (Department)department;
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    @Override
+    public String getFirstName() {
+        return firstName;
+    }
+
+    @Override
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    @Override
+    public String getLastName() {
+        return lastName;
+    }
+
+    @Override
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     @Override

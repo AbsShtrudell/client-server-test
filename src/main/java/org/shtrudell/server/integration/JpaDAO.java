@@ -1,4 +1,4 @@
-package org.shtrudell.common.integration;
+package org.shtrudell.server.integration;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;

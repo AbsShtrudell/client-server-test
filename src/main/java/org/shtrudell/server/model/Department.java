@@ -3,6 +3,31 @@ package org.shtrudell.server.model;
 import jakarta.persistence.*;
 import org.shtrudell.common.model.DepartmentDTO;
 
+@NamedQueries({
+        @NamedQuery(
+                name = "deleteDepartmentById",
+                query = "DELETE FROM Department dep WHERE dep.id = :departmentId"
+        )
+        ,
+        @NamedQuery(
+                name = "deleteDepartmentByName",
+                query = "DELETE FROM Department dep WHERE dep.id = :departmentId"
+        )
+        ,
+        @NamedQuery(
+                name = "findDepartmentByName",
+                query = "SELECT dep FROM Department dep " +
+                        "WHERE dep.name LIKE :name ",
+                lockMode = LockModeType.OPTIMISTIC
+        )
+        ,
+        @NamedQuery(
+                name = "findAllDepartments",
+                query = "SELECT dep FROM Department dep ",
+                lockMode = LockModeType.OPTIMISTIC
+        )
+})
+
 @Entity
 @Table(name="department")
 public class Department  implements DepartmentDTO {
@@ -21,6 +46,11 @@ public class Department  implements DepartmentDTO {
 
     public Department() {
 
+    }
+
+    public Department(String name, String type) {
+        this.name = name;
+        this.type = type;
     }
 
     public Long getId() {
